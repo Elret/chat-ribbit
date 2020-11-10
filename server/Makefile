@@ -1,13 +1,13 @@
 CC = g++
 BUILD = .toejam/build/
 LIBS =   
-DEPS = src/ribbit-server.h 
+DEPS = src/server.h 
 
-ribbit-server: $(BUILD)ribbit-server.o
-	$(CC) -o bin/ribbit-server $^ $(LIBS)
+server: $(BUILD)server.o
+	$(CC) -o bin/server $^ $(LIBS)
 
-$(BUILD)ribbit-server.o: src/ribbit-server.cpp $(DEPS)
-	$(CC) -c src/ribbit-server.cpp -o $@
+$(BUILD)server.o: src/server.cpp $(DEPS)
+	$(CC) -c src/server.cpp -o $@
 
 .PHONY: clean
 
