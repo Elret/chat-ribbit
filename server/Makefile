@@ -1,6 +1,6 @@
 CC = g++
 BUILD = .toejam/build/
-LIBS =  -lboost_system -lpthread  
+LIBS = 
 DEPS = src/ribbit.h src/server.h 
 
 ribbit: $(BUILD)ribbit.o $(BUILD)server.o

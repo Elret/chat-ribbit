@@ -3,24 +3,23 @@
 
 #include <iostream>
 #include <string>
-#include <boost/asio.hpp>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <unistd.h>
 
-using namespace boost::asio;
-using ip::tcp;
+
 
 class Server {
     private:
-    boost::asio::io_service io_service;
-    int port_num;
-    std::string read_socket(tcp::socket &socket);
-    void send_socket(tcp::socket &socket, const std::string &message);
+    int portnum, connection, max_clients, client_sockets[30], activity;
+    int sd;
+    int valread;
+    char *buffer;
+    void set_fd(int sockfd);
 
     public:
-    Server(int port_num);
-    
+    Server(int);
     void run();
 };
-
-
 
 #endif
