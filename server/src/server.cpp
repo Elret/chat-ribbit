@@ -19,6 +19,15 @@ void Server::run()
         std::cout << "Failed to create socket!\n";
     }
 
+    int opt = 1;
+
+    if( setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (char *)&opt, 
+		sizeof(opt)) < 0 ) 
+	{ 
+		perror("setsockopt"); 
+		exit(EXIT_FAILURE); 
+	} 
+
     sockaddr_in server;
     server.sin_family = AF_INET;
     server.sin_addr.s_addr = INADDR_ANY;
@@ -91,15 +100,22 @@ void Server::run()
         for (int i = 0; i < max_clients; i++)
         {
             sd = client_sockets[i];
+
             if (FD_ISSET(sd, &read_fds))
             {
-                if (valread = recv(sd, buffer, 1024, 0) == 0)
+                if ((valread = recv(sd, buffer, 1024, 0)) == 0)
                 {
                     getpeername(sd, (struct sockaddr *)&server, (socklen_t *)addrlen);
                     std::cout << "Host Disconnected on IP: " << inet_ntoa(server.sin_addr) << " Port: " << ntohs(server.sin_port);
                     close(sd);
                     client_sockets[i] = 0;
+                }         
+
+                else 
+                {
+                    send(sd, buffer, (sizeof(buffer)/sizeof(buffer[0])), 0);
                 }
+
             }
         }
     }
