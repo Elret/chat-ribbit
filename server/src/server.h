@@ -11,11 +11,13 @@
 
 class Server {
     private:
-    int portnum, connection, max_clients, client_sockets[30], activity;
+    int portnum;
     int sd;
     int valread;
     char *buffer;
-    void set_fd(int sockfd);
+    std::string *buf;
+    int addrlen;
+    int new_sockfd;
 
     public:
     Server(int);
